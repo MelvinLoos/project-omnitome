@@ -6,6 +6,12 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   ssr: false,
   nitro: {
-    preset: 'netlify'
+    preset: 'github-pages'
+  },
+  runtimeConfig: {
+    public: {
+      supabaseUrl: '',
+      supabaseAnonKey: ''
+    }
   }
 })
