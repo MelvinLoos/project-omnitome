@@ -1,4 +1,3 @@
-# Nuxt dev/build outputs
 .output
 .data
 .nuxt
@@ -20,8 +19,10 @@ logs
 
 # Local env files
 .env
+*.env
 .env.*
 !.env.example
 supabase/functions/.env
+.supabase/
 # Do not commit secrets/config if they contain env substitution logic but still might be sensitive
 # supabase/config.toml is usually safe if it only uses env() variables
