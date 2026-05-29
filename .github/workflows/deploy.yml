@@ -26,10 +26,11 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run generate
+        run: npm run build
         env:
           NUXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           NUXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NUXT_APP_BASE_URL: /project-omnitome/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
