@@ -1,0 +1,35 @@
+{
+  "name": "project-omnitome",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:status": "supabase status",
+    "supabase:db:reset": "supabase db reset",
+    "supabase:db:push": "supabase db push",
+    "supabase:db:pull": "supabase db pull",
+    "supabase:db:diff": "supabase db diff",
+    "supabase:migration:new": "supabase migration new",
+    "supabase:gen:types": "supabase gen types typescript --local > types/supabase.ts",
+    "supabase:link": "supabase link",
+    "supabase:deploy": "supabase functions deploy",
+    "test:functions": "deno test -A supabase/functions/"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "@supabase/supabase-js": "^2.99.1",
+    "marked": "^18.0.4",
+    "nuxt": "^3.21.2",
+    "vue": "^3.5.30",
+    "vue-router": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/marked": "^5.0.2"
+  }
+}

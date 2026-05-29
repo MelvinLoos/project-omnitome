@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-parchment text-ttrpg-ink font-serif min-h-screen;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-fancy font-bold tracking-tight text-ttrpg-crimson;
+  }
+}
+
+.ttrpg-card {
+  @apply bg-parchment-dark p-6 rounded-lg shadow-md border border-ttrpg-gold/30;
+}
+
+.ttrpg-button {
+  @apply px-4 py-2 bg-ttrpg-crimson text-white rounded hover:bg-red-900 transition-colors duration-200 font-bold;
+}
+
+.ttrpg-input {
+  @apply w-full p-2 bg-parchment border border-ttrpg-gold rounded focus:outline-none focus:ring-2 focus:ring-ttrpg-gold/50;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.no-print-bg {
+  @apply bg-parchment shadow-2xl border-4 border-ttrpg-gold p-8;
+}
+
+@media print {
+  @page {
+    size: auto;
+    margin: 15mm 15mm 20mm 15mm;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: #1a1a1a;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    columns: 1;
+    font-size: 11pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  h1, h2, h3, h4 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  p {
+    widows: 3;
+    orphans: 3;
+  }
+
+  .ttrpg-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    background: #fdfdfd !important;
+    margin-bottom: 1rem;
+  }
+
+  .no-print-bg {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+}
