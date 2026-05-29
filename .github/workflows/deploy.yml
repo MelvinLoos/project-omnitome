@@ -32,6 +32,12 @@ jobs:
           NUXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NUXT_APP_BASE_URL: /project-omnitome/
 
+      - name: Update Database and Seed
+        run: npm run supabase:seed
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
