@@ -22,6 +22,14 @@ const handleRegenerate = (type: string, id: string) => {
     <!-- Rooms -->
     <div class="space-y-24">
       <article v-for="(room, index) in adventure.rooms" :key="room.id" class="relative">
+        <!-- Room Transition -->
+        <div v-if="(index as number) > 0 && room.transition" class="mb-12 flex justify-center">
+          <div class="max-w-2xl text-center px-6 py-4 bg-ttrpg-gold/5 border-x border-ttrpg-gold/30 italic text-ttrpg-ink/70 relative">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-parchment px-2 text-ttrpg-gold text-xs font-bold uppercase tracking-widest leading-none">Transition</span>
+            {{ room.transition }}
+          </div>
+        </div>
+
         <div class="flex items-center gap-4 mb-6">
           <span class="bg-ttrpg-crimson text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-xl shadow-lg">
             {{ (index as number) + 1 }}
@@ -106,6 +114,7 @@ const handleRegenerate = (type: string, id: string) => {
           <!-- Basic NPC Layout -->
           <div v-if="npc.type === 'basic'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-2">
+              <p class="text-sm"><span class="font-bold text-ttrpg-crimson uppercase text-xs">Story Tie:</span> {{ npc.story_tie }}</p>
               <p class="text-sm"><span class="font-bold text-ttrpg-crimson uppercase text-xs">Motivation:</span> {{ npc.motivation }}</p>
               <p class="text-sm"><span class="font-bold text-ttrpg-crimson uppercase text-xs">Secret/Quirk:</span> {{ npc.secret_or_quirk || npc.agenda }}</p>
             </div>
@@ -124,6 +133,7 @@ const handleRegenerate = (type: string, id: string) => {
                     <li><span class="font-bold">Dreams:</span> {{ npc.dreams }}</li>
                   </ul>
                 </div>
+                <p class="text-sm"><span class="font-bold text-ttrpg-crimson uppercase text-xs block">Story Tie:</span> {{ npc.story_tie }}</p>
                 <p class="text-sm"><span class="font-bold text-ttrpg-crimson uppercase text-xs block">Motivation:</span> {{ npc.motivation }}</p>
                 <p class="text-sm"><span class="font-bold text-ttrpg-crimson uppercase text-xs block">Physical Presence:</span> {{ npc.physical_presence }}</p>
               </div>

@@ -51,7 +51,9 @@ Deno.serve(async (req) => {
         id: z.string(),
         name: z.string(),
         description_summary: z.string(),
+        transition: z.string().nullable().describe("Text describing the movement or narrative link from the PREVIOUS room to this one. MUST be null for the first room."),
         connections: z.array(z.string()),
+        npcs: z.array(z.string()).describe("IDs of NPCs present in this room."),
         monsters: z.array(z.string()), // monster slugs
         loot: z.array(z.string()),
         traps: z.array(z.string()),
@@ -68,6 +70,7 @@ Deno.serve(async (req) => {
         role: z.string(),
         type: z.enum(["basic", "major"]),
         motivation: z.string(),
+        story_tie: z.string().describe("How this NPC is connected to the main plot or the specific adventure hook."),
         secret_or_quirk: z.string(),
         // Detailed fields (must be nullable for Structured Outputs compatibility)
         family: z.string().nullable(),
@@ -100,22 +103,25 @@ Deno.serve(async (req) => {
     // 1. Orchestrator Pass (GPT-OSS on Groq)
     console.log("Running Orchestrator Pass...");
     const { object: adventureStructure } = await generateObject({
-      model: groq("openai/gpt-oss-120b"),
-
+      model: groq("llama-3.3-70b-versatile"),
+      maxTokens: 8000,
       schema: AdventureSchema,
       system: `You are a master TTRPG adventure designer creating a professional-grade module.
       Create a 5-room dungeon based on these dials: Tone ${dials.tone}, Theme ${dials.theme}, Players ${dials.players}.
       Adventure Hook: ${hook}
       
       INSTRUCTIONS:
-      - monsters: Use standard SRD monster slugs (e.g., 'goblin', 'orc', 'ghoul', 'skeleton', 'mimic', 'gelatinous-cube').
-      - skill_checks: Include only when there is a significant obstacle or secret (e.g., "Athletics DC 15 to climb the crumbling wall"). If none, provide an empty array [].
-      - suggested_actions: Advice for the GM on what PCs might try or how to handle common approaches. If none, provide an empty array [].
-      - npcs: Differentiate between "basic" and "major" NPCs. 
-        - BASIC: 3-Bullet Method (Name, Motivation, Secret/Quirk). For all MAJOR fields (family, occupation, recreation, dreams, unique_look, talents, flaws, physical_presence), return null.
-        - MAJOR: Villains, key allies. Use FORD Method (Family, Occupation, Recreation, Dreams) + Unique Look, Talents, Flaws, and Physical Presence.
-      - dialogue_samples: 2-3 flavorful quotes for NPCs that capture their personality. If none, provide an empty array [].
-      - logical flow: Ensure rooms are interconnected and the plot makes sense.
+      - STRUCTURE: You must return a complete adventure object with 'title', 'hook', 'rooms', and 'npcs'.
+      - ROOMS: Generate a sequence of 5 rooms. Every room after the first MUST have a 'transition' text (narrative link from the previous room). ROOM 1 transition MUST be null.
+      - PLACEMENT: Every NPC must be placed in at least one room by adding their ID to that room's 'npcs' array and mentioning them in the room's description.
+      - MONSTERS: Use standard SRD monster slugs (e.g., 'goblin', 'orc', 'ghoul', 'skeleton', 'mimic', 'gelatinous-cube').
+      - SKILL_CHECKS: Include only when there is a significant obstacle. If none, provide an empty array [].
+      - SUGGESTED_ACTIONS: Advice for the GM. If none, provide an empty array [].
+      - NPCS: Every NPC must have a 'story_tie' (relevance to the plot). Differentiate between "basic" and "major" NPCs. 
+        - BASIC: 3-Bullet Method (Name, Motivation, Secret/Quirk, Story Tie). For all MAJOR fields (family, occupation, recreation, dreams, unique_look, talents, flaws, physical_presence), return null.
+        - MAJOR: Villains, key allies. Use FORD Method (Family, Occupation, Recreation, Dreams) + Unique Look, Talents, Flaws, Physical Presence AND Story Tie.
+      - DIALOGUE_SAMPLES: 2-3 flavorful quotes for NPCs. If none, provide an empty array [].
+      - LOGICAL FLOW: Ensure rooms are interconnected and the plot makes sense.
       
       SAFETY RULES: 
       - Absolutely avoid: ${safety.lines.join(", ")}

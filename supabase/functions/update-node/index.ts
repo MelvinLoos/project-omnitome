@@ -37,6 +37,8 @@ Deno.serve(async (req) => {
       schema = z.object({
         name: z.string(),
         description_summary: z.string(),
+        transition: z.string().nullable(),
+        npcs: z.array(z.string()),
         monsters: z.array(z.string()),
         loot: z.array(z.string()),
       });
@@ -44,7 +46,9 @@ Deno.serve(async (req) => {
       schema = z.object({
         name: z.string(),
         role: z.string(),
-        agenda: z.string(),
+        story_tie: z.string(),
+        motivation: z.string(),
+        secret_or_quirk: z.string(),
         tags: z.array(z.string()),
       });
     }
