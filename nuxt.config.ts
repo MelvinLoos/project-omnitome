@@ -10,8 +10,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      supabaseUrl: '',
-      supabaseAnonKey: ''
+      supabaseUrl: 'https://jaiqygbjestxncypetxc.supabase.co',
+      supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphaXF5Z2JqZXN0eG5jeXBldHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1ODI4MTMsImV4cCI6MjA4OTE1ODgxM30.dFI3OxUTYjgzkAtSqKnE0bOVa4p1pbuNMLbNa_9HmZI'
     }
   }
 })
