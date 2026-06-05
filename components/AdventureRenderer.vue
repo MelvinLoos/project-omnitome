@@ -50,7 +50,24 @@ const handleRegenerate = (type: string, id: string) => {
           </div>
 
           <!-- Mechanics Column -->
-          <div v-if="room.monster_details?.length || room.loot?.length || room.traps?.length || room.skill_checks?.length || room.suggested_actions?.length" class="lg:col-span-12 space-y-6">
+          <div v-if="room.monster_details?.length || room.loot?.length || room.traps?.length || room.skill_checks?.length || room.suggested_actions?.length || room.npcs?.length" class="lg:col-span-12 space-y-6">
+          
+          <!-- NPCs Present -->
+          <div v-if="room.npcs?.length" class="bg-blue-500/5 p-4 border border-blue-500/20 rounded">
+            <h4 class="font-bold text-blue-700 uppercase tracking-wider text-sm mb-2">NPCs Present</h4>
+            <div class="flex flex-wrap gap-2">
+              <template v-for="npcId in room.npcs" :key="npcId">
+                <a 
+                  v-if="adventure.npcs.find(n => n.id === npcId)"
+                  :href="'#npc-' + npcId" 
+                  class="text-sm font-bold text-blue-600 hover:text-blue-800 underline decoration-blue-500/30 transition-colors"
+                >
+                  {{ adventure.npcs.find(n => n.id === npcId).name }}
+                </a>
+              </template>
+            </div>
+          </div>
+
           <div v-if="room.monster_details?.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <StatBlock v-for="m in room.monster_details" :key="m.slug" :stats="m.raw_stats" />
           </div>
@@ -94,7 +111,7 @@ const handleRegenerate = (type: string, id: string) => {
     <section v-if="adventure.npcs?.length" class="pt-16 border-t-4 border-double border-ttrpg-gold/50">
       <h2 class="text-4xl font-fancy mb-8 text-center">Dramatis Personae</h2>
       <div class="space-y-8">
-        <div v-for="npc in adventure.npcs" :key="npc.id" class="ttrpg-card bg-parchment-dark relative group">
+        <div v-for="npc in adventure.npcs" :key="npc.id" :id="'npc-' + npc.id" class="ttrpg-card bg-parchment-dark relative group scroll-mt-8">
           <div class="absolute top-2 right-2">
             <GranularRegenerate 
               :loading="updatingNodeId === npc.id" 
